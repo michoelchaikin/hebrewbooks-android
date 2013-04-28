@@ -103,4 +103,18 @@ public class HebrewBooksUtils {
 		options.inDither = false;
 		return BitmapFactory.decodeFile(file.getAbsolutePath(), options);
     }
+    
+    // Parses a string using Integer.parseInt, but returns 0 in case of error instead of throwing exception
+    
+    public static int parseIntNoException(String string) {
+    	if(string == null) return 0;
+    	
+    	int result = 0;
+    	try {
+    		result = Integer.parseInt(string);
+    	} catch(NumberFormatException e) {
+    		result = 0;
+    	}
+    	return result;
+    }
 }

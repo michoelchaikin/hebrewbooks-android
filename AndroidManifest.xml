@@ -16,8 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
+        android:theme="@style/AppTheme" ><activity
             android:name="com.michoelchaikin.hebrewbooks.ViewBookActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_view_book" >
@@ -26,6 +25,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="*.hebrewbooks.org"
+                    android:scheme="http"
+                    android:pathPrefix="/pdfpager.aspx" />
+            </intent-filter>
+
         </activity>
     </application>
 
