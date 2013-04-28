@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ViewBookActivity" >
+
+    <Button
+        android:id="@+id/butPrev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:onClick="butPrev_onClick"
+        android:text="&lt;" />
+
+    <Button
+        android:id="@+id/butNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/butPrev"
+        android:layout_alignBottom="@+id/butPrev"
+        android:layout_toRightOf="@+id/butPrev"
+        android:onClick="butNext_onClick"
+        android:text=">" />
+
+    <com.michoelchaikin.hebrewbooks.ui.PageView
+        android:id="@+id/pageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/butPrev"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/butNext"
+        android:layout_alignBottom="@+id/butNext"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/butNext"
+        android:textIsSelectable="false"
+        android:clickable="true"
+        android:onClick="textPage_onClick"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>
