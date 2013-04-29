@@ -51,17 +51,18 @@ public class ViewBookActivity extends Activity {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if (netInfo == null || netInfo.isConnected() == false) {
-			Toast.makeText(this, "Internet connection not available", Toast.LENGTH_LONG).show();
-			finish();
+			finishWithError(R.string.error_no_internet);
+			return;
 		}
-
-		createBook();
+		
+		// Figure out which book and page to open
+		
+		if(createBook() == false)
+			return;
 
 		// UI Stuff
 
 		setContentView(R.layout.activity_view_book);
-
-		new InitBook().execute();
 
 		mButPrev = (Button) findViewById(R.id.butPrev);
 		mButNext = (Button) findViewById(R.id.butNext);
@@ -70,9 +71,27 @@ public class ViewBookActivity extends Activity {
 
 		mButNext.setEnabled(false);
 		mButPrev.setEnabled(false);
+	
+		new InitBook().execute();
+	}
+	
+	private void finishWithError(int resId) {
+		String message = getString(resId);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Error");
+		builder.setMessage(message);
+		builder.setCancelable(false);
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+				finish();
+			}
+		});
+		Dialog dialog = builder.create();
+		dialog.show();
 	}
 
-	private void createBook() {
+	private Boolean createBook() {
 
 		/* The application can handle two types of URLS:
 		 * 
@@ -104,8 +123,8 @@ public class ViewBookActivity extends Activity {
 				Pattern pattern = Pattern.compile("^/pagefeed/hebrewbooks_org_([\\d]*)_([\\d]*)\\.pdf.*$");
 				Matcher matcher = pattern.matcher(path);
 				if(! matcher.matches()) {
-					Toast.makeText(this, "Could not open book: URL not understood", Toast.LENGTH_LONG).show();
-					finish();
+					finishWithError(R.string.error_invalid_url);
+					return false;
 				}
 				bookID = HebrewBooksUtils.parseIntNoException(matcher.group(1));
 				page = HebrewBooksUtils.parseIntNoException(matcher.group(2)); 
@@ -113,8 +132,8 @@ public class ViewBookActivity extends Activity {
 
 			// Unrecognized URL type
 			else {
-				Toast.makeText(this, "Could not open book: Unrecognized URL", Toast.LENGTH_LONG).show();
-				finish();
+				finishWithError(R.string.error_invalid_url);
+				return false;
 			}
 		} else if (Intent.ACTION_MAIN.equals(action)) {
 			// Started from app launcher
@@ -123,13 +142,14 @@ public class ViewBookActivity extends Activity {
 		}
 
 		if(bookID == 0) {
-			Toast.makeText(this, "Could not open book: No book request found", Toast.LENGTH_LONG).show();
-			finish();
+			finishWithError(R.string.error_invalid_url);
+			return false;
 		}
 		if(page == 0) page = 1;
 
 		mCurrentPage = page;
 		mBook = new HebrewBook(this, bookID);
+		return true;
 	}
 
 	class InitBook extends AsyncTask<Void, Void, Boolean> {

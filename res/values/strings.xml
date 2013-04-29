@@ -4,5 +4,7 @@
     <string name="app_name">HebrewBooks.org</string>
     <string name="title_activity_view_book">HebrewBooks.org</string>
     <string name="action_settings">Settings</string>
+    <string name="error_no_internet">This program requires an Internet connection. Please enable and try again.</string>
+    <string name="error_invalid_url">The link to the book you are trying to open seems to be invalid.</string>
 
 </resources>
