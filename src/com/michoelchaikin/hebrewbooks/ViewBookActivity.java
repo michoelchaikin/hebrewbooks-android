@@ -19,6 +19,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -186,6 +187,7 @@ public class ViewBookActivity extends Activity {
 	private void loadPage(int page) {
 
 		if(mBook == null || page < 1 || page > mBook.getNumPages()) {
+			Toast.makeText(getApplicationContext(), getString(R.string.error_invalid_page), Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -215,7 +217,7 @@ public class ViewBookActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String value = input.getText().toString();
-				int page = Integer.parseInt(value);
+				int page = HebrewBooksUtils.parseIntNoException(value);
 				loadPage(page);
 				return;
 			}
@@ -227,6 +229,9 @@ public class ViewBookActivity extends Activity {
 			}
 		});
 		Dialog dialog = builder.create();
+		input.requestFocus();
+		input.selectAll();
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		dialog.show();
 	}
 
