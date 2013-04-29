@@ -101,7 +101,7 @@ public class ViewBookActivity extends Activity {
 
 			// Try the second type of URL
 			else if (path.startsWith("/pagefeed/")) {
-				Pattern pattern = Pattern.compile("^/pagefeed/hebrewbooks_org_([\\d]*)_([\\d])*\\.pdf.*$");
+				Pattern pattern = Pattern.compile("^/pagefeed/hebrewbooks_org_([\\d]*)_([\\d]*)\\.pdf.*$");
 				Matcher matcher = pattern.matcher(path);
 				if(! matcher.matches()) {
 					Toast.makeText(this, "Could not open book: URL not understood", Toast.LENGTH_LONG).show();
